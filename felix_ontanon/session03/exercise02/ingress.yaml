@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx
+  namespace: se03ex02
+  labels:
+    app: wpblog
+  annotations:
+    # From https://github.com/kubernetes/ingress-nginx/tree/master/docs/examples/affinity/cookie
+    nginx.ingress.kubernetes.io/affinity: cookie
+    nginx.ingress.kubernetes.io/session-cookie-name: wordpress-se03ex02
+    nginx.ingress.kubernetes.io/session-cookie-hash: sha1
+spec:
+  rules:
+  - host: wordpress-se03ex02.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: wordpress
+          servicePort: http

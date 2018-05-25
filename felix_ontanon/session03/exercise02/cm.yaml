@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blogconfig
+  namespace: se03ex02
+  labels:
+    app: wpblog
+data:
+  db-blog-name: "se03ex02"
+  db-blog-user: "wpblog"
+  wp-blog-name: "Session03 Exercise02"
+  wp-blog-user: "admin"
+  wp-blog-user-email: "felixonta@gmail.com"
+  wp-blog-user-firstname: "J. Félix"
+  wp-blog-user-lastname: "Ontañón"

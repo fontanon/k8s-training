@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: se03ex02
+  labels:
+    app: wpblog
+    component: backend
+spec:
+  selector:
+    matchLabels:
+      app: wpblog
+      component: backend
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wpblog
+        component: backend
+    spec:
+      containers:
+      - name: mariadb
+        image: bitnami/mariadb:latest
+        ports:
+        - containerPort: 3306
+          name: mysql
+        env: # Vars from https://hub.docker.com/r/bitnami/mariadb
+        - name: MARIADB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: blogsecrets
+              key: db-root-password
+        - name: MARIADB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: blogconfig
+              key: db-blog-name
+        - name: MARIADB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: blogconfig
+              key: db-blog-user
+        - name: MARIADB_PASSWORD 
+          valueFrom:
+            secretKeyRef:
+              name: blogsecrets
+              key: db-blog-password

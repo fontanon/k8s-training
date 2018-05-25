@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+spec:
+  podSelector:
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mariadb-wordpress-allow
+spec:
+  podSelector:
+    matchLabels:
+      app: wpblog
+      component: backend
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: wpblog
+            component: frontend
+      ports:
+        - protocol: TCP
+          port: 3306
